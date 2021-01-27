@@ -5,6 +5,7 @@ import (
 	"github.com/gofiber/fiber"
 	"net/http"
 	"rest-api/database"
+	db "sweet_fantasy_go/internal/database"
 	"sweet_fantasy_go/internal/models"
 )
 
@@ -35,8 +36,10 @@ func CreateCategory(ctx *fiber.Ctx) {
 		return
 	}
 
-	ctx.JSON(ctx.JSON(fiber.Map{
+	db.DBConn.Create(&category)
+
+	ctx.JSON(fiber.Map{
 		"success": true,
 		"message": "Категория успешно создана",
-	}))
+	})
 }
