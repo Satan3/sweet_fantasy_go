@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	if err := godotenv.Load(); err != nil {
+	if err := godotenv.Load("../.env"); err != nil {
 		panic("There is no .env file")
 	}
 }
@@ -22,7 +22,7 @@ func main() {
 }
 
 func setupRoutes(app *fiber.App) {
-	app.Static("/files", "./assets")
+	app.Static("/files", "../assets")
 
 	group := app.Group("/categories")
 	group.Get("/list", handlers.GetCategories)
