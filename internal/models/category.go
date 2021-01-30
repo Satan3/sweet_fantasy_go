@@ -6,12 +6,16 @@ import (
 	"sweet_fantasy_go/internal/validation"
 )
 
+const FilePath = "categories"
+
 type Category struct {
 	gorm.Model
 	Name        string `validate:"required" json:"name"`
 	Title       string `validate:"required" json:"title"`
 	Description string `validate:"required" json:"description"`
 	Keywords    string `validate:"required" json:"keywords"`
+	FileId      uint
+	File        File
 }
 
 func (category *Category) Validate() []*validation.Error {
@@ -28,4 +32,11 @@ func (category *Category) Validate() []*validation.Error {
 		}
 	}
 	return errors
+}
+
+func (category *Category) BeforeDelete(tx *gorm.DB) error {
+	if err := category.File.removeFromStorage(); err != nil {
+		return err
+	}
+	return nil
 }
