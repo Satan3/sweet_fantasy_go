@@ -7,8 +7,8 @@ import (
 
 type Base struct {
 	ID        uint      `json:"id" gorm:"primaryKey"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	CreatedAt time.Time `json:"-"`
+	UpdatedAt time.Time `json:"-"`
 }
 
 func (base *Base) BeforeCreate(db *gorm.DB) error {
