@@ -1,13 +1,12 @@
 package models
 
 import (
-	"gorm.io/gorm"
 	"os"
 	"path/filepath"
 )
 
 type File struct {
-	gorm.Model
+	Base
 	Path string
 }
 

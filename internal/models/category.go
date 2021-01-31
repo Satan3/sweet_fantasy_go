@@ -9,7 +9,7 @@ import (
 const FilePath = "categories"
 
 type Category struct {
-	gorm.Model
+	Base
 	Name        string `validate:"required" json:"name"`
 	Title       string `validate:"required" json:"title"`
 	Description string `validate:"required" json:"description"`
@@ -34,9 +34,10 @@ func (category *Category) Validate() []*validation.Error {
 	return errors
 }
 
-func (category *Category) BeforeDelete(tx *gorm.DB) error {
+func (category *Category) BeforeDelete(db *gorm.DB) error {
 	if err := category.File.removeFromStorage(); err != nil {
 		return err
 	}
+	db.Delete(&category.File)
 	return nil
 }
