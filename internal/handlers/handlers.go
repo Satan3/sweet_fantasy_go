@@ -5,14 +5,13 @@ import (
 	"github.com/gofiber/fiber"
 	"net/http"
 	"path/filepath"
-	"rest-api/database"
 	db "sweet_fantasy_go/internal/database"
 	"sweet_fantasy_go/internal/models"
 )
 
 func GetCategories(ctx *fiber.Ctx) {
 	var categories []models.Category
-	database.DB.Find(&categories)
+	db.DBConn.Joins("File").Find(&categories)
 	ctx.JSON(categories)
 }
 
@@ -26,7 +25,11 @@ func CreateCategory(ctx *fiber.Ctx) {
 
 	image, err := ctx.FormFile("image")
 	if err != nil {
-		ctx.JSON(err)
+		ctx.JSON(fiber.Map{
+			"success": false,
+			"message": "Отсутствует файл обложки",
+		})
+		return
 	}
 
 	relativeFilePath := fmt.Sprintf(
@@ -41,11 +44,13 @@ func CreateCategory(ctx *fiber.Ctx) {
 	))
 	if err != nil {
 		ctx.JSON(err)
+		return
 	}
 
 	err = ctx.SaveFile(image, fullPath)
 	if err != nil {
 		ctx.JSON(err)
+		return
 	}
 
 	category.File = models.File{
