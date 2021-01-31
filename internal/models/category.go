@@ -15,7 +15,7 @@ type Category struct {
 	Description string `validate:"required" json:"description"`
 	Keywords    string `validate:"required" json:"keywords"`
 	FileId      uint
-	File        File
+	File        File `gorm:"constraint:OnDelete:SET NULL"`
 }
 
 func (category *Category) Validate() []*validation.Error {

@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gofiber/fiber"
+	"gorm.io/gorm"
 	"net/http"
 	"path/filepath"
 	db "sweet_fantasy_go/internal/database"
@@ -56,11 +58,11 @@ func CreateCategory(ctx *fiber.Ctx) {
 	category.File = models.File{
 		Path: relativeFilePath,
 	}
-	errors := category.Validate()
-	if errors != nil {
+	validationErrors := category.Validate()
+	if validationErrors != nil {
 		ctx.JSON(fiber.Map{
-			"success": false,
-			"errors":  errors,
+			"success":          false,
+			"validationErrors": validationErrors,
 		})
 		return
 	}
@@ -71,4 +73,18 @@ func CreateCategory(ctx *fiber.Ctx) {
 		"success": true,
 		"message": "Категория успешно создана",
 	})
+}
+
+func DeleteCategory(ctx *fiber.Ctx) {
+	id := ctx.Params("id")
+	category := new(models.Category)
+	result := db.DBConn.Joins("File").First(&category, id)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		ctx.JSON(fiber.Map{
+			"success": false,
+			"message": fmt.Sprintf("Не существует категории с Id: %s", id),
+		})
+		return
+	}
+	db.DBConn.Delete(&category)
 }

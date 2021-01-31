@@ -11,4 +11,5 @@ func SetupRoutes(app *fiber.App) {
 	group := app.Group("/categories")
 	group.Get("/list", handlers.GetCategories)
 	group.Post("/create", handlers.CreateCategory)
+	group.Get("/delete/:id", handlers.DeleteCategory)
 }
