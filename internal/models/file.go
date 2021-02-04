@@ -11,7 +11,7 @@ type File struct {
 	Path string `validate:"required" json:"path"`
 }
 
-func (file *File) removeFromStorage() error {
+func (file *File) RemoveFromStorage() error {
 	relativePath := strings.Join([]string{"../assets/", file.Path}, "")
 	path, err := filepath.Abs(relativePath)
 	if err != nil {

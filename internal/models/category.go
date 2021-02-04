@@ -17,7 +17,7 @@ type Category struct {
 }
 
 func (category *Category) BeforeDelete(db *gorm.DB) error {
-	if err := category.File.removeFromStorage(); err != nil {
+	if err := category.File.RemoveFromStorage(); err != nil {
 		return err
 	}
 	db.Delete(&category.File)
