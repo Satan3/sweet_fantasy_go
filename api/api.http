@@ -1,0 +1,32 @@
+GET {{host}}/categories/list
+Accept: application/json
+
+###
+
+DELETE {{host}}/categories/delete/4
+Accept: application/json
+
+###
+
+POST {{host}}/categories/create
+Content-Type: application/json;
+
+{
+  "name": "testName",
+  "title": "testTitle",
+  "description": "desc",
+  "keywords": "keywords"
+}
+
+###
+
+POST {{host}}/categories/update/5
+Content-Type: application/json
+
+{
+  "name": "updatedName",
+  "title": "updatedTitle",
+  "description": "updatedDescription",
+  "keywords": "updatedKeywords"
+}
+
