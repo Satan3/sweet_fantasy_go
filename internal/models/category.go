@@ -1,9 +1,7 @@
 package models
 
 import (
-	"github.com/go-playground/validator"
 	"gorm.io/gorm"
-	"sweet_fantasy_go/internal/validation"
 )
 
 const FilePath = "categories"
@@ -14,24 +12,8 @@ type Category struct {
 	Title       string `validate:"required" json:"title"`
 	Description string `validate:"required" json:"description"`
 	Keywords    string `validate:"required" json:"keywords"`
-	FileId      uint
-	File        File `gorm:"constraint:OnDelete:SET NULL"`
-}
-
-func (category *Category) Validate() []*validation.Error {
-	var errors []*validation.Error
-	validate := validator.New()
-	err := validate.Struct(category)
-	if err != nil {
-		for _, err := range err.(validator.ValidationErrors) {
-			element := validation.Error{
-				FailedField: err.Field(),
-				Tag:         err.Tag(),
-			}
-			errors = append(errors, &element)
-		}
-	}
-	return errors
+	FileId      uint   `json:"-"`
+	File        File   `json:"file" gorm:"constraint:OnDelete:SET NULL"`
 }
 
 func (category *Category) BeforeDelete(db *gorm.DB) error {

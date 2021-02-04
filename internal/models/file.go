@@ -8,7 +8,7 @@ import (
 
 type File struct {
 	Base
-	Path string `json:"path"`
+	Path string `validate:"required" json:"path"`
 }
 
 func (file *File) removeFromStorage() error {
