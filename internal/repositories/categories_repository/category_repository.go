@@ -22,7 +22,11 @@ func FindById(id string) (*models.Category, error) {
 	return category, nil
 }
 
-func Save(category *models.Category) {
+func Create(category *models.Category) {
+	db.DBConn.Create(&category)
+}
+
+func Update(category *models.Category) {
 	db.DBConn.Save(&category)
 }
 

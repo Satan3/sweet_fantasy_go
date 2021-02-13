@@ -46,7 +46,7 @@ func CreateCategory(ctx *fiber.Ctx) {
 		return
 	}
 
-	categoriesRepository.Save(category)
+	categoriesRepository.Create(category)
 	ctx.JSON(fiber.Map{
 		"success": true,
 		"message": "Категория успешно создана",
@@ -87,7 +87,7 @@ func UpdateCategory(ctx *fiber.Ctx) {
 		})
 		return
 	}
-	categoriesRepository.Save(category)
+	categoriesRepository.Update(category)
 	ctx.JSON(fiber.Map{
 		"success": true,
 	})
@@ -104,4 +104,8 @@ func DeleteCategory(ctx *fiber.Ctx) {
 		return
 	}
 	categoriesRepository.Delete(category)
+	ctx.JSON(fiber.Map{
+		"success": true,
+		"message": "Категория успешно удалена",
+	})
 }
