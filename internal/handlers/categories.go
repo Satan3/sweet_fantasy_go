@@ -38,10 +38,10 @@ func CreateCategory(ctx *fiber.Ctx) {
 
 	category.File = *file
 	validationErrors := validation.Validate(category)
-	if validationErrors != nil {
+	if len(validationErrors) >= 1 {
 		ctx.JSON(fiber.Map{
-			"success":          false,
-			"validationErrors": validationErrors,
+			"success": false,
+			"errors":  validationErrors,
 		})
 		return
 	}
