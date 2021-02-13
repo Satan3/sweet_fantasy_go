@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const FilePath = "categories"
+const CategoryPath = "categories"
 
 type Category struct {
 	Base
@@ -12,8 +12,9 @@ type Category struct {
 	Title       string `validate:"required" json:"title"`
 	Description string `validate:"required" json:"description"`
 	Keywords    string `validate:"required" json:"keywords"`
-	FileId      uint   `json:"-"`
-	File        File   `json:"file" gorm:"constraint:OnDelete:SET NULL"`
+
+	FileId uint `json:"-"`
+	File   File `json:"file" gorm:"constraint:OnDelete:SET NULL"`
 }
 
 func (category *Category) BeforeDelete(db *gorm.DB) error {

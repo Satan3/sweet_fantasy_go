@@ -1,21 +1,16 @@
 package handlers
 
 import (
-	"errors"
-	"fmt"
 	"github.com/gofiber/fiber"
-	"gorm.io/gorm"
 	"net/http"
-	db "sweet_fantasy_go/internal/database"
 	"sweet_fantasy_go/internal/models"
+	categoriesRepository "sweet_fantasy_go/internal/repositories/categories_repository"
 	"sweet_fantasy_go/internal/services"
 	"sweet_fantasy_go/internal/validation"
 )
 
 func GetCategories(ctx *fiber.Ctx) {
-	var categories []models.Category
-	db.DBConn.Joins("File").Find(&categories)
-	ctx.JSON(categories)
+	ctx.JSON(categoriesRepository.FindAll())
 }
 
 func CreateCategory(ctx *fiber.Ctx) {
@@ -35,7 +30,7 @@ func CreateCategory(ctx *fiber.Ctx) {
 		return
 	}
 
-	file, err := services.CreateAndSaveFile(image, models.FilePath)
+	file, err := services.CreateAndSaveFile(image, models.CategoryPath)
 	if err != nil {
 		ctx.JSON(err)
 		return
@@ -51,7 +46,7 @@ func CreateCategory(ctx *fiber.Ctx) {
 		return
 	}
 
-	db.DBConn.Create(&category)
+	categoriesRepository.Save(category)
 	ctx.JSON(fiber.Map{
 		"success": true,
 		"message": "Категория успешно создана",
@@ -60,12 +55,11 @@ func CreateCategory(ctx *fiber.Ctx) {
 
 func UpdateCategory(ctx *fiber.Ctx) {
 	id := ctx.Params("id")
-	category := new(models.Category)
-	result := db.DBConn.Joins("File").First(&category, id)
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+	category, err := categoriesRepository.FindById(id)
+	if err != nil {
 		ctx.JSON(fiber.Map{
 			"success": false,
-			"message": fmt.Sprintf("Не существует категории с Id: %s", id),
+			"message": err.Error(),
 		})
 	}
 
@@ -76,7 +70,7 @@ func UpdateCategory(ctx *fiber.Ctx) {
 
 	image, _ := ctx.FormFile("image")
 	if image != nil {
-		err := services.ReplaceFile(image, models.FilePath, &category.File)
+		err := services.ReplaceFile(image, models.CategoryPath, &category.File)
 		if err != nil {
 			ctx.JSON(fiber.Map{
 				"success": false,
@@ -93,7 +87,7 @@ func UpdateCategory(ctx *fiber.Ctx) {
 		})
 		return
 	}
-	db.DBConn.Save(&category)
+	categoriesRepository.Save(category)
 	ctx.JSON(fiber.Map{
 		"success": true,
 	})
@@ -101,14 +95,13 @@ func UpdateCategory(ctx *fiber.Ctx) {
 
 func DeleteCategory(ctx *fiber.Ctx) {
 	id := ctx.Params("id")
-	category := new(models.Category)
-	result := db.DBConn.Joins("File").First(&category, id)
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+	category, err := categoriesRepository.FindById(id)
+	if err != nil {
 		ctx.JSON(fiber.Map{
 			"success": false,
-			"message": fmt.Sprintf("Не существует категории с Id: %s", id),
+			"message": err.Error(),
 		})
 		return
 	}
-	db.DBConn.Delete(&category)
+	categoriesRepository.Delete(category)
 }
