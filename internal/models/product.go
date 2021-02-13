@@ -12,8 +12,8 @@ type Product struct {
 	Discount    int    `json:"discount"`
 	HitSales    bool   `json:"hit_sales"`
 
-	CategoryId uint `json:"category_id"`
-	Category   `json:"category" gorm:"constraint:OnDelete:SET NULL"`
+	CategoryId uint     `json:"category_id"`
+	Category   Category `json:"category" gorm:"constraint:OnDelete:SET NULL"`
 
 	FileId uint `json:"-"`
 	File   File `json:"file" gorm:"constraint:OnDelete:SET NULL"`
