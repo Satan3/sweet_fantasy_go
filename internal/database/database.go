@@ -26,5 +26,5 @@ func InitDatabase() {
 	if err != nil {
 		panic("Failed to connect to database")
 	}
-	DBConn.AutoMigrate(models.Category{})
+	DBConn.AutoMigrate(models.File{}, models.Category{}, models.Product{})
 }
