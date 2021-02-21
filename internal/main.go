@@ -1,8 +1,11 @@
 package main
 
 import (
-	"github.com/gofiber/fiber"
+	"fmt"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
+	"os"
 	"sweet_fantasy_go/internal/database"
 	"sweet_fantasy_go/internal/router"
 )
@@ -15,8 +18,10 @@ func init() {
 
 func main() {
 	app := fiber.New()
+	app.Use(cors.New())
+
 	router.SetupRoutes(app)
 	database.InitDatabase()
 
-	app.Listen(":3000")
+	app.Listen(fmt.Sprintf(":%s", os.Getenv("APP_PORT")))
 }
