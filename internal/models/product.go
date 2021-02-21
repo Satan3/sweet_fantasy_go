@@ -1,5 +1,7 @@
 package models
 
+import "gorm.io/gorm"
+
 const ProductPath = "products"
 
 type Product struct {
@@ -17,4 +19,12 @@ type Product struct {
 
 	FileId uint `json:"-"`
 	File   File `json:"file" gorm:"constraint:OnDelete:SET NULL"`
+}
+
+func (product *Product) BeforeDelete(db *gorm.DB) error {
+	if err := product.File.RemoveFromStorage(); err != nil {
+		return err
+	}
+	db.Delete(&product.File)
+	return nil
 }
