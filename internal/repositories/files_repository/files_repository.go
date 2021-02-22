@@ -20,3 +20,7 @@ func FindById(id string) (*models.File, error) {
 func Create(file *models.File) {
 	db.DBConn.Create(&file)
 }
+
+func Delete(file *models.File) {
+	db.DBConn.Delete(&file)
+}
