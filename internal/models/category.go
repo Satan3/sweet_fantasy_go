@@ -13,8 +13,8 @@ type Category struct {
 	Description string `validate:"required" json:"description"`
 	Keywords    string `validate:"required" json:"keywords"`
 
-	FileId uint `json:"-"`
-	File   File `json:"file" gorm:"constraint:OnDelete:SET NULL"`
+	FileId uint `validate:"required" json:"file_id"`
+	File   File `validate:"required" json:"file" gorm:"constraint:OnDelete:SET NULL"`
 }
 
 func (category *Category) BeforeDelete(db *gorm.DB) error {
