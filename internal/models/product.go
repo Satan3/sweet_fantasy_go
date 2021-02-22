@@ -17,8 +17,8 @@ type Product struct {
 	CategoryId uint     `json:"category_id"`
 	Category   Category `json:"category" gorm:"constraint:OnDelete:SET NULL"`
 
-	FileId uint `json:"-"`
-	File   File `json:"file" gorm:"constraint:OnDelete:SET NULL"`
+	FileId uint `validate:"required" json:"file_id"`
+	File   File `validate:"required" json:"file" gorm:"constraint:OnDelete:SET NULL"`
 }
 
 func (product *Product) BeforeDelete(db *gorm.DB) error {
