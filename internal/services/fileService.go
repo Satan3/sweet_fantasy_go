@@ -9,6 +9,7 @@ import (
 	"strings"
 	db "sweet_fantasy_go/internal/database"
 	"sweet_fantasy_go/internal/models"
+	"sweet_fantasy_go/internal/repositories/files_repository"
 	"time"
 )
 
@@ -17,7 +18,9 @@ func CreateAndSaveFile(file *multipart.FileHeader, filePath string) (*models.Fil
 	if err != nil {
 		return nil, err
 	}
-	return &models.File{Path: relativePath}, nil
+	fileModel := &models.File{Path: relativePath}
+	files_repository.Create(fileModel)
+	return fileModel, nil
 }
 
 func ReplaceFile(newFile *multipart.FileHeader, filePath string, prevFile *models.File) error {

@@ -12,21 +12,23 @@ POST {{host}}/categories/create
 Content-Type: application/json;
 
 {
-  "name": "testName",
-  "title": "testTitle",
-  "description": "desc",
-  "keywords": "keywords"
+  "name": "testName1",
+  "title": "testTitle2",
+  "description": "desc3",
+  "keywords": "keywords4",
+  "file_id": 24
 }
 
 ###
 
-POST {{host}}/categories/update/5
+PUT {{host}}/categories/update/16
 Content-Type: application/json
 
 {
   "name": "updatedName",
   "title": "updatedTitle",
   "description": "updatedDescription",
-  "keywords": "updatedKeywords"
+  "keywords": "updatedKeywords",
+  "file_id": 24
 }
 
