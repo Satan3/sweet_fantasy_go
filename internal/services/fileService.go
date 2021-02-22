@@ -7,7 +7,6 @@ import (
 	"mime/multipart"
 	"path/filepath"
 	"strings"
-	db "sweet_fantasy_go/internal/database"
 	"sweet_fantasy_go/internal/models"
 	"sweet_fantasy_go/internal/repositories/files_repository"
 	"time"
@@ -21,19 +20,6 @@ func CreateAndSaveFile(file *multipart.FileHeader, filePath string) (*models.Fil
 	fileModel := &models.File{Path: relativePath}
 	files_repository.Create(fileModel)
 	return fileModel, nil
-}
-
-func ReplaceFile(newFile *multipart.FileHeader, filePath string, prevFile *models.File) error {
-	relativePath, err := saveFile(newFile, filePath)
-	if err != nil {
-		return err
-	}
-	if err = prevFile.RemoveFromStorage(); err != nil {
-		return err
-	}
-	prevFile.Path = relativePath
-	db.DBConn.Save(&prevFile)
-	return nil
 }
 
 func saveFile(file *multipart.FileHeader, filePath string) (relative string, err error) {
