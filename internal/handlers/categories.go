@@ -18,7 +18,7 @@ func CreateCategory(ctx *fiber.Ctx) error {
 	category := new(models.Category)
 
 	if err := ctx.BodyParser(category); err != nil {
-		return errorResponse(ctx.Status(http.StatusBadRequest), err.Error())
+		return errorResponse(ctx.Status(http.StatusBadRequest), "Неверная структура запроса")
 	}
 
 	if category.FileId == 0 {
