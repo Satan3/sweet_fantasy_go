@@ -21,7 +21,7 @@ Content-Type: application/json;
 
 ###
 
-PUT {{host}}/categories/update/16
+PUT {{host}}/categories/update/17
 Content-Type: application/json
 
 {
@@ -29,6 +29,6 @@ Content-Type: application/json
   "title": "updatedTitle",
   "description": "updatedDescription",
   "keywords": "updatedKeywords",
-  "file_id": 24
+  "file_id": 3
 }
 
