@@ -11,9 +11,13 @@ func SetupRoutes(app *fiber.App) {
 	fileGroup := app.Group("/files")
 	fileGroup.Post("/upload", handlers.Upload)
 
-	group := app.Group("/categories")
-	group.Get("/list", handlers.GetCategories)
-	group.Post("/create", handlers.CreateCategory)
-	group.Put("/update/:id", handlers.UpdateCategory)
-	group.Delete("/delete/:id", handlers.DeleteCategory)
+	categoryGroup := app.Group("/categories")
+	categoryGroup.Get("/list", handlers.GetCategories)
+	categoryGroup.Post("/create", handlers.CreateCategory)
+	categoryGroup.Put("/update/:id", handlers.UpdateCategory)
+	categoryGroup.Delete("/delete/:id", handlers.DeleteCategory)
+
+	productGroup := app.Group("/products")
+	productGroup.Get("/list", handlers.GetProducts)
+	productGroup.Post("/create", handlers.CreateProduct)
 }

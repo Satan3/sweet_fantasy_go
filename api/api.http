@@ -29,6 +29,23 @@ Content-Type: application/json
   "title": "updatedTitle",
   "description": "updatedDescription",
   "keywords": "updatedKeywords",
-  "file_id": 3
+  "file_id": 25
+}
+
+###
+
+POST {{host}}/products/create
+Content-Type: application/json;
+
+{
+  "name": "Name",
+  "title": "Title",
+  "description": "desc",
+  "keywords": "keywords4",
+  "price": 100,
+  "discount": 15,
+  "hit_sales": true,
+  "category_id": 17,
+  "file_id": 21
 }
 
