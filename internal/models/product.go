@@ -22,9 +22,7 @@ type Product struct {
 }
 
 func (product *Product) BeforeDelete(db *gorm.DB) error {
-	if err := product.File.RemoveFromStorage(); err != nil {
-		return err
-	}
+	product.File.RemoveFromStorage()
 	db.Delete(&product.File)
 	return nil
 }
