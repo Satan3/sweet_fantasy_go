@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"net/http"
 	"strconv"
@@ -12,6 +13,16 @@ import (
 
 func GetCategories(ctx *fiber.Ctx) error {
 	return successResponse(ctx, categoriesRepository.FindAll())
+}
+
+func GetCategory(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	category, err := categoriesRepository.FindById(id)
+	if err != nil {
+		return errorResponse(ctx, fmt.Sprintf("Отсутствует категория с Id: %s", id))
+	}
+
+	return successResponse(ctx, category)
 }
 
 func CreateCategory(ctx *fiber.Ctx) error {

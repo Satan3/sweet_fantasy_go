@@ -3,6 +3,11 @@ Accept: application/json
 
 ###
 
+GET {{host}}/categories/get/25
+Accept: application/json
+
+###
+
 DELETE {{host}}/categories/delete/4
 Accept: application/json
 
