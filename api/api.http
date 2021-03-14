@@ -1,5 +1,10 @@
-GET {{host}}/categories/list
-Accept: application/json
+POST {{host}}/categories/list
+Content-Type: application/json
+
+{
+  "page": "1",
+  "pageSize": "5"
+}
 
 ###
 

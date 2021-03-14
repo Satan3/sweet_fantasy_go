@@ -12,7 +12,7 @@ func SetupRoutes(app *fiber.App) {
 	fileGroup.Post("/upload", handlers.Upload)
 
 	categoryGroup := app.Group("/categories")
-	categoryGroup.Get("/list", handlers.GetCategories)
+	categoryGroup.Post("/list", handlers.GetCategories)
 	categoryGroup.Post("/create", handlers.CreateCategory)
 	categoryGroup.Get("/get/:id", handlers.GetCategory)
 	categoryGroup.Put("/update/:id", handlers.UpdateCategory)

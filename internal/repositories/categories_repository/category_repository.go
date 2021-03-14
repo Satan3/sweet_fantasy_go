@@ -8,8 +8,19 @@ import (
 	"sweet_fantasy_go/internal/models"
 )
 
-func FindAll() (categories []models.Category) {
-	db.DBConn.Joins("File").Find(&categories)
+type Pagination struct {
+	Total int64 `json:"total"`
+	Items []models.Category
+}
+
+func FindList(page int, pageSize int) (categories []*models.Category, total int64) {
+	db.DBConn.
+		Table("categories").
+		Count(&total).
+		Joins("File").
+		Offset((page - 1) * pageSize).
+		Limit(pageSize).
+		Find(&categories)
 	return
 }
 

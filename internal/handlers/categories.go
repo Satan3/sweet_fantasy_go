@@ -11,8 +11,26 @@ import (
 	"sweet_fantasy_go/internal/validation"
 )
 
+type Pagination struct {
+	Page     string `json:"page" `
+	PageSize string `json:"pageSize"`
+}
+
 func GetCategories(ctx *fiber.Ctx) error {
-	return successResponse(ctx, categoriesRepository.FindAll())
+	pagination := new(Pagination)
+
+	if err := ctx.BodyParser(&pagination); err != nil {
+		return errorResponse(ctx.Status(http.StatusBadRequest), "Неверная структура запроса")
+	}
+
+	page, _ := strconv.Atoi(pagination.Page)
+	pageSize, _ := strconv.Atoi(pagination.PageSize)
+	items, total := categoriesRepository.FindList(page, pageSize)
+
+	return successResponse(ctx, fiber.Map{
+		"items": items,
+		"total": total,
+	})
 }
 
 func GetCategory(ctx *fiber.Ctx) error {
