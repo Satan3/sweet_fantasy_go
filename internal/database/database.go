@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"log"
 	"os"
 	"sweet_fantasy_go/internal/models"
 )
@@ -22,9 +23,10 @@ func InitDatabase() {
 		os.Getenv("DB_PORT"),
 		os.Getenv("DB_NAME"),
 	)
+	fmt.Println(dsn)
 	DBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("Failed to connect to database")
+		log.Fatal(err.Error())
 	}
 	DBConn.AutoMigrate(models.File{}, models.Category{}, models.Product{})
 }
