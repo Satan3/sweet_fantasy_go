@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 
 services:
   db:
@@ -13,7 +13,7 @@ services:
       - MYSQL_USER="${DB_USER}"
       - MYSQL_PASSWORD="${DB_PASSWORD}"
     volumes:
-      - ./db-data:/var/lib/mysql
+      - db-data:/var/lib/mysql
     networks:
       - sweet-fantasy
 
@@ -37,3 +37,6 @@ services:
 networks:
   sweet-fantasy:
     driver: bridge
+
+volumes:
+  db-data:
