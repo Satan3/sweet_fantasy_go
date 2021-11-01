@@ -47,7 +47,7 @@ func getRelativePath(fileName string, filePath string) string {
 
 func getFullPath(relativePath string) (string, error) {
 	return filepath.Abs(fmt.Sprintf(
-		"../assets/%s",
+		"./assets/%s",
 		relativePath,
 	))
 }

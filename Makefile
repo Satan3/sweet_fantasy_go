@@ -1,2 +1,2 @@
 build:
-	go build -o ../cmd
+	cd internal; go build -o ../cmd/internal;

@@ -6,7 +6,7 @@ import (
 )
 
 func SetupRoutes(app *fiber.App) {
-	app.Static("/static", "../assets")
+	app.Static("/static", "./assets")
 
 	fileGroup := app.Group("/files")
 	fileGroup.Post("/upload", handlers.Upload)

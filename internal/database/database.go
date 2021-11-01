@@ -2,31 +2,32 @@ package database
 
 import (
 	"fmt"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 	"log"
 	"os"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+
 	"sweet_fantasy_go/internal/models"
 )
 
-var (
-	DBConn *gorm.DB
-)
+var DBConn *gorm.DB
 
 func InitDatabase() {
 	var err error
 	dsn := fmt.Sprintf(
-		"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Europe/Moscow",
+		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
 		os.Getenv("DB_NAME"),
+		os.Getenv("DB_PORT"),
 	)
-	fmt.Println(dsn)
-	DBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	DBConn, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	DBConn.AutoMigrate(models.File{}, models.Category{}, models.Product{})
+	if err = DBConn.AutoMigrate(models.File{}, models.Category{}, models.Product{}); err != nil {
+		log.Fatal(err.Error())
+	}
 }

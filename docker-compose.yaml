@@ -2,25 +2,22 @@ version: '3'
 
 services:
   db:
-    image: mysql
+    image: postgres
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
     ports:
-      - '3306:3306'
+      - '6432:5432'
     environment:
-      - MYSQL_ROOT_PASSWORD="${DB_ROOT_PASSWORD}"
-      - MYSQL_DATABASE="${DB_NAME}"
-      - MYSQL_USER="${DB_USER}"
-      - MYSQL_PASSWORD="${DB_PASSWORD}"
+      - POSTGRES_DB="${DB_NAME}"
+      - POSTGRES_PASSWORD="${DB_PASSWORD}"
     volumes:
-      - db-data:/var/lib/mysql
+      - ./postgres-data:/var/lib/postgresql/data
     networks:
       - sweet-fantasy
 
   app:
     build: .
     ports:
-      - 5000:5000
+      - 3001:3001
     environment:
       - DB_USER=${DB_USER}
       - DB_NAME=${DB_NAME}
@@ -37,6 +34,3 @@ services:
 networks:
   sweet-fantasy:
     driver: bridge
-
-volumes:
-  db-data:
